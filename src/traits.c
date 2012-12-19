@@ -452,7 +452,7 @@ Expression *TraitsExp::semantic(Scope *sc)
             goto Ldimerror;
 
         AggregateDeclaration *parent;
-        if ((parent = sc->scopesym->isAggregateDeclaration()) == NULL)
+        if ((parent = sc->getStructClassScope()) == NULL)
         {
             error("setParent trait can only be used in a class or a struct");
             goto Lfalse;
