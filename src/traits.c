@@ -448,10 +448,8 @@ Expression *TraitsExp::semantic(Scope *sc)
     }
     else if (ident == Id::setFriend)
     {
-        if (dim != 1)
+        if (dim == 0)
             goto Ldimerror;
-        Object *o = (*args)[0];
-        Dsymbol *s = getDsymbol(o);
 
         AggregateDeclaration *parent;
         if ((parent = sc->scopesym->isAggregateDeclaration()) == NULL)
@@ -460,14 +458,21 @@ Expression *TraitsExp::semantic(Scope *sc)
             goto Lfalse;
         }
 
-        AggregateDeclaration *ag;
-        if (!s || (ag = s->isAggregateDeclaration()) == NULL)
+        for (size_t i = 0; i < dim; i++)
         {
-            error("friend argument must be a class or a struct");
-            goto Lfalse;
+            Object *o = (*args)[i];
+            Dsymbol *s = getDsymbol(o);
+
+            AggregateDeclaration *ag;
+            if (!s || (ag = s->isAggregateDeclaration()) == NULL)
+            {
+                error("friend argument must be a class or a struct");
+                goto Lfalse;
+            }
+
+            parent->friends->push(ag);
         }
 
-        parent->friends->push(ag);
         return new IntegerExp(loc, 1, Type::tsize_t);
     }
     else if (ident == Id::allMembers || ident == Id::derivedMembers)

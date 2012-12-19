@@ -274,6 +274,7 @@ int AggregateDeclaration::isFriendOf(AggregateDeclaration *cd)
         return 1;
     }
 
+    // Friends if explicitly set as a friend
     for (size_t i = 0; i < friends->dim; i++)
     {
         if ((*friends)[i] == cd)
