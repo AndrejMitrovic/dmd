@@ -446,6 +446,30 @@ Expression *TraitsExp::semantic(Scope *sc)
         TupleExp *tup = new TupleExp(loc, s->userAttributes);
         return tup->semantic(sc);
     }
+    else if (ident == Id::setFriend)
+    {
+        if (dim != 1)
+            goto Ldimerror;
+        Object *o = (*args)[0];
+        Dsymbol *s = getDsymbol(o);
+
+        AggregateDeclaration *parent;
+        if ((parent = sc->scopesym->isAggregateDeclaration()) == NULL)
+        {
+            error("setParent trait can only be used in a class or a struct");
+            goto Lfalse;
+        }
+
+        AggregateDeclaration *ag;
+        if (!s || (ag = s->isAggregateDeclaration()) == NULL)
+        {
+            error("friend argument must be a class or a struct");
+            goto Lfalse;
+        }
+
+        parent->friends->push(ag);
+        return new IntegerExp(loc, 1, Type::tsize_t);
+    }
     else if (ident == Id::allMembers || ident == Id::derivedMembers)
     {
         if (dim != 1)

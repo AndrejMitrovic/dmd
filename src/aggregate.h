@@ -54,6 +54,7 @@ struct AggregateDeclaration : ScopeDsymbol
     enum Sizeok sizeok;         // set when structsize contains valid data
     Dsymbol *deferred;          // any deferred semantic2() or semantic3() symbol
     bool isdeprecated;          // !=0 if deprecated
+    Aggregates *friends;        // aggregates declared as friends of this aggregate
 
 #if DMDV2
     bool isnested;              // !=0 if is nested

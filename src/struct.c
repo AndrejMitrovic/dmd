@@ -57,6 +57,7 @@ AggregateDeclaration::AggregateDeclaration(Loc loc, Identifier *id)
 #endif
     dtor = NULL;
     getRTInfo = NULL;
+    friends = new Aggregates();
 }
 
 enum PROT AggregateDeclaration::prot()

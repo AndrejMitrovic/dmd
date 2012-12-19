@@ -339,6 +339,7 @@ Msgtable msgtable[] =
     { "compiles" },
     { "parameters" },
     { "getAttributes" },
+    { "setFriend" },
 };
 
 

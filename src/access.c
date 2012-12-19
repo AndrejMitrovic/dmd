@@ -274,6 +274,12 @@ int AggregateDeclaration::isFriendOf(AggregateDeclaration *cd)
         return 1;
     }
 
+    for (size_t i = 0; i < friends->dim; i++)
+    {
+        if ((*friends)[i] == cd)
+            return 1;
+    }
+
 #if LOG
     printf("\tnot friend\n");
 #endif

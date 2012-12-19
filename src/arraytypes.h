@@ -24,6 +24,8 @@ typedef ArrayBase<struct Expression> Expressions;
 
 typedef ArrayBase<struct Statement> Statements;
 
+typedef ArrayBase<struct AggregateDeclaration> Aggregates;
+
 typedef ArrayBase<struct BaseClass> BaseClasses;
 
 typedef ArrayBase<struct ClassDeclaration> ClassDeclarations;
