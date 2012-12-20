@@ -2990,7 +2990,7 @@ int FuncDeclaration::isVirtual()
         !(p->isInterfaceDeclaration() && isFinal()));
 #endif
     return isMember() &&
-        !(isStatic() || protection == PROTprivate || protection == PROTpackage) &&
+        !isStatic() &&
         p->isClassDeclaration() &&
         !(p->isInterfaceDeclaration() && isFinal());
 }
