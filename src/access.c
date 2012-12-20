@@ -394,8 +394,27 @@ void accessCheck(Loc loc, Scope *sc, Expression *e, Declaration *d)
 #endif
     if (!e)
     {
-        if (d->prot() == PROTprivate && d->getAccessModule() != sc->module ||
-            d->prot() == PROTpackage && !hasPackageAccess(sc, d))
+        bool isFriend = false;
+        AggregateDeclaration *ag;
+        AggregateDeclaration *src;
+
+        if ((d && d->parent && ((ag = d->parent->isAggregateDeclaration()) != NULL))
+            && ((src = sc->getStructClassScope()) != NULL))
+        {
+            // static field e.d is in an aggregate which has
+            // the 'sc' aggregate as its friend
+            for (size_t i = 0; i < ag->friends->dim; i++)
+            {
+                if ((*ag->friends)[i] == src)
+                {
+                    isFriend = true;
+                    break;
+                }
+            }
+        }
+
+        if (!isFriend && (d->prot() == PROTprivate && d->getAccessModule() != sc->module ||
+            d->prot() == PROTpackage && !hasPackageAccess(sc, d)))
         {
             error(loc, "%s %s is not accessible from module %s",
                 d->kind(), d->toPrettyChars(), sc->module->toChars());
